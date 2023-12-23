@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#__nuxt {
+    @apply h-screen;
+}
+
+@font-face {
+    font-family: 'RedHat';
+    src: url('~/assets/fonts/red_hat_display_variable.ttf') format('ttf');
+}
