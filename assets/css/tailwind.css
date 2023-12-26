@@ -8,5 +8,5 @@
 
 @font-face {
     font-family: 'RedHat';
-    src: url('~/assets/fonts/red_hat_display_variable.ttf') format('ttf');
+    src: url('~/assets/fonts/red_hat_display_variable.ttf');
 }
