@@ -15,5 +15,11 @@
     "nuxt": "^3.8.2",
     "vue": "^3.3.12",
     "vue-router": "^4.2.5"
+  },
+  "dependencies": {
+    "@pinia/nuxt": "^0.5.1",
+    "@vee-validate/zod": "^4.12.3",
+    "vee-validate": "^4.12.3",
+    "zod": "^3.22.4"
   }
 }

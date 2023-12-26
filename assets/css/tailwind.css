@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 #__nuxt {
-    @apply h-screen;
+    @apply h-full;
 }
 
 @font-face {
