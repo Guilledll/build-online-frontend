@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 #__nuxt {
-    @apply h-full;
+    @apply h-full bg-stone-50;
 }
 
 @font-face {

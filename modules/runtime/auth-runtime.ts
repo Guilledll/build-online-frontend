@@ -1,8 +1,8 @@
-import { defineNuxtPlugin, useCookie, useFetch, addRouteMiddleware, useAuth } from "#imports";
+import { defineNuxtPlugin, useCookie, useFetch, addRouteMiddleware, useAuthStore } from "#imports";
 import type { LoginForm } from "~/types/forms";
 
 export default defineNuxtPlugin(async () => {
-    let { user, token } = useAuth();
+    let store = useAuthStore();
 
     function apiFetch(url: string, options?: RequestInit = {}) {
         // Load token from cookie before making the request
@@ -13,7 +13,7 @@ export default defineNuxtPlugin(async () => {
             referrer: 'http://localhost:3000',
             headers: {
                 Accept: 'application/json',
-                Authorization: `Bearer ${token || ''}`,
+                Authorization: `Bearer ${store.token || ''}`,
                 ...options?.headers,
             },
             ...options,
@@ -21,17 +21,20 @@ export default defineNuxtPlugin(async () => {
     };
 
     /** 
-     * Save user token on a cookie and load state
+     * Save user token on a cookie and load store
      */
     function saveToken(tokenValue) {
         useCookie('access_token').value = tokenValue;
-        token = tokenValue;
+        store.token = tokenValue;
     }
 
     function getToken() {
-        token = useCookie('access_token').value;
+        store.token = useCookie('access_token').value;
     }
 
+    /**
+     * Log in user, save token and returs API resonse
+     */
     async function login(body: LoginForm) {
         const res = await apiFetch('/login', { method: "POST", body });
         if (res.data.value?.token) {
@@ -42,25 +45,25 @@ export default defineNuxtPlugin(async () => {
     }
 
     /**
-     * Load user form state or fetch it from API
+     * Load user form store or fetch it from API
      */
     async function getUser() {
-        if (user) {
-            return user;
+        if (store.user) {
+            return store.user;
         }
 
         const res = await apiFetch('/user');
 
-        user = res.data.value;
+        store.user = res.data.value;
 
-        return user;
+        return store.user;
     }
 
     /**
      * Middleware to protect routes that need logged in user
      */
     addRouteMiddleware('auth', (to) => {
-        if (!user && to.path !== 'login') {
+        if (!store.user && to.path !== 'login') {
             return navigateTo({ path: '/login' });
         }
     });
@@ -69,7 +72,7 @@ export default defineNuxtPlugin(async () => {
      * Middleware to avoid navigation to routes that require guests
      */
     addRouteMiddleware('guest', (to) => {
-        if (user && to.path !== '/contacts') {
+        if (store.user && to.path !== '/contacts') {
             return navigateTo({ path: '/contacts' });
         }
     })

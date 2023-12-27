@@ -1,7 +1,6 @@
-import { defineStore } from "pinia";
 import type { LoginForm } from "~/types/forms";
 
-export const useAuth = defineStore('auth', {
+export const useAuthStore = defineStore('auth', {
     state: () => {
         return {
             user: null,
@@ -20,4 +19,8 @@ export const useAuth = defineStore('auth', {
             this.user = await $auth.user();
         }
     }
-})
+});
+
+if (import.meta.hot) {
+    import.meta.hot.accept(acceptHMRUpdate(useAuthStore, import.meta.hot))
+}

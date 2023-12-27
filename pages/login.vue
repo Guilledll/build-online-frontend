@@ -5,7 +5,7 @@ import { toTypedSchema } from "@vee-validate/zod";
 
 definePageMeta({ middleware: 'guest' });
 
-const { login: storeLogin, user, token } = useAuth();
+const { login: storeLogin, loggedInUser } = useAuthStore();
 const form = ref();
 
 const schema = toTypedSchema(z.object({
@@ -21,6 +21,8 @@ async function login(data) {
     return;
   }
 
+  await loggedInUser();
+
   return navigateTo('/contacts')
 }
 </script>
@@ -28,7 +30,6 @@ async function login(data) {
 <template>
   <div class="flex flex-col items-center justify-center w-full gap-11 mt-60">
     <h3 class="font-redhat font-extrabold text-4xl">Welcome</h3>
-    {{ user }} | {{ token }}
     <Form ref="form" :validation-schema="schema" @submit="login" class="flex flex-col gap-16 w-full max-w-lg">
       <div class="flex flex-col gap-3">
 
