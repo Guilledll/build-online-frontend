@@ -8,6 +8,8 @@ const emit = defineEmits(['save']);
 
 const form = ref(props.data);
 const phoneRegex = new RegExp(/^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/);
+const route = useRoute();
+const cancelLink = computed(() => route.params.id ? `/contacts/${route.params.id}` : '/contacts');
 
 const schema = toTypedSchema(z.object({
   name: z.string().min(2, "Name is required"),
@@ -69,7 +71,7 @@ const schema = toTypedSchema(z.object({
       </div>
     </div>
     <div class="flex gap-4 sm:max-w-xs mx-auto mt-10">
-      <ActionButton :to="`/contacts/${$route.params.id}`" class="flex justify-center w-full">
+      <ActionButton :to="cancelLink" class="flex justify-center w-full">
         CANCEL
       </ActionButton>
       <ActionButton type="submit" class="flex justify-center w-full">
