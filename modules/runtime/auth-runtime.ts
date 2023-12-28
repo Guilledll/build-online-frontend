@@ -3,13 +3,14 @@ import type { LoginForm } from "~/types/forms";
 
 export default defineNuxtPlugin(async () => {
     let store = useAuthStore();
+    const config = useRuntimeConfig();
 
     function apiFetch(url: string, options?: RequestInit = {}) {
         // Load token from cookie before making the request
         getToken();
 
         return useFetch(url, {
-            baseURL: 'http://localhost/api',
+            baseURL: config.public.apiUrl,
             referrer: 'http://localhost:3000',
             headers: {
                 Accept: 'application/json',
