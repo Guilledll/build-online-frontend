@@ -31,7 +31,7 @@ const filteredContacts = computed(() => {
       </div>
       <div class="flex flex-col gap-8 items-center justify-center">
         <p class="text-xl font-redhat font-bold">Add contacts to your database</p>
-        <LazyActionButton to="/contacts/add" class="px-14 py-4">
+        <LazyActionButton to="/contacts/add" class="hidden sm:block px-14 py-4">
           Add new contacts
         </LazyActionButton>
       </div>
@@ -41,13 +41,13 @@ const filteredContacts = computed(() => {
       <ContactCard v-for="contact in filteredContacts" :contact="contact" :key="contact.id" />
     </div>
   </div>
-  <LazyActionButton to="/contacts/add" v-if="!filteredContacts.length"
-    class="absolute sm:hidden right-5 !p-0 !bg-transparent top-auto bottom-5 rounded-full w-16 h-16 flex items-center justify-center text-4xl">
+  <ActionButton to="/contacts/add"
+    :class="['absolute flex right-5 !p-0 !bg-transparent top-auto bottom-5 rounded-full w-16 h-16 items-center justify-center text-4xl', { 'sm:hidden': !filteredContacts.length }]">
     <svg xmlns="http://www.w3.org/2000/svg" width="84" height="84" viewBox="0 0 84 84" fill="none">
       <path d="M84 42C84 65.196 65.196 84 42 84C18.804 84 0 65.196 0 42C0 18.804 18.804 0 42 0C65.196 0 84 18.804 84 42Z"
         fill="#9378FF" />
       <path d="M43.826 18.2609V65.3164" stroke="white" stroke-width="7" />
       <path d="M67.1425 41.2053L20.0869 41.2053" stroke="white" stroke-width="7" />
     </svg>
-  </LazyActionButton>
+  </ActionButton>
 </template>
