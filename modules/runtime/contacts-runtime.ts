@@ -15,7 +15,9 @@ export default defineNuxtPlugin({
         /**
          * Update the given contact information
          */
-        async function updateContact() { }
+        async function updateContact(id: string, body: object) {
+            return $apiFetch(`/contacts/${id}`, { method: "PUT", body });
+        }
 
         /**
          * Add a new contact

@@ -1,6 +1,7 @@
 <script setup>
 definePageMeta({ middleware: ['auth', 'contact'] });
 
+const { params } = useRoute();
 const store = useContactStore();
 const { contact } = storeToRefs(store);
 
@@ -13,12 +14,19 @@ const form = ref({
   email: contact.value.email,
 });
 
+async function save(data) {
+  const res = await store.updateContact(params.id, data);
+
+  if (!res.error.value) {
+    return navigateTo('/contacts')
+  }
+}
 </script>
 
 <template>
   <div class="flex flex-col gap-8 w-full sm:px-5 sm:mt-10 lg:px-20">
     <ContactProfileBanner :name="form.name" :title="form.title" :picture="form.picture" is-modifing
       class="hidden sm:flex" />
-    <ContactDataForm :data="form" />
+    <ContactDataForm :data="form" @save="save" />
   </div>
 </template>
