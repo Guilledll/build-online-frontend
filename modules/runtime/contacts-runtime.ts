@@ -22,7 +22,9 @@ export default defineNuxtPlugin({
         /**
          * Add a new contact
          */
-        async function createContact() { }
+        async function createContact(body: object) {
+            return $apiFetch(`/contacts`, { method: "POST", body });
+        }
 
         /**
          * Fetch contact by ID

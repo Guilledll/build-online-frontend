@@ -16,12 +16,16 @@ export const useContactStore = defineStore('contacts', {
 
             this.contact = res.data.value.data;
         },
-        async updateContact(id, data) {
+        async updateContact(id: number, data: object) {
             const { $contacts } = useNuxtApp();
             const res = await $contacts.updateContact(id, data);
             return res;
         },
-        async createContact() { }
+        async createContact(data: object) {
+            const { $contacts } = useNuxtApp();
+            const res = await $contacts.createContact(data);
+            return res;
+        }
     }
 });
 
