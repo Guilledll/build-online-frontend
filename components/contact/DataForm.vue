@@ -3,8 +3,12 @@ import { Form, Field, ErrorMessage } from 'vee-validate';
 import { z } from "zod";
 import { toTypedSchema } from "@vee-validate/zod";
 
-const props = defineProps({ data: { type: Object, required: true } });
+const props = defineProps({ data: { type: Object, required: true }, errors: { type: Object, default: () => ({}) } });
 const emit = defineEmits(['save']);
+
+watch(() => props.errors, (val) => {
+  form.value.setErrors(val);
+}, { deep: true });
 
 const form = ref(props.data);
 const phoneRegex = new RegExp(/^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/);
@@ -12,10 +16,10 @@ const route = useRoute();
 const cancelLink = computed(() => route.params.id ? `/contacts/${route.params.id}` : '/contacts');
 
 const schema = toTypedSchema(z.object({
-  name: z.string().min(2, "Name is required"),
-  title: z.string().min(2, 'Title is Required'),
+  name: z.string().min(2, "Name is too short"),
+  title: z.string().min(2, 'Title is too short'),
   picture: z.string().url(),
-  address: z.string().min(5, 'Address is Required'),
+  address: z.string().min(5, 'Address is too short'),
   phone: z.string().regex(phoneRegex, "Invalid Phone number"),
   email: z.string().email('Must be a valid email'),
 }))

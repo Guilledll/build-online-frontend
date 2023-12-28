@@ -3,14 +3,18 @@ definePageMeta({ middleware: 'auth' });
 
 const store = useContactStore();
 const form = ref({});
+const errors = ref({});
 
 async function save(data) {
   console.log(data);
   const res = await store.createContact(data);
 
-  if (!res.error.value) {
-    return navigateTo('/contacts')
+  if (res.error.value) {
+    errors.value = res.error.value.data.errors;
+    return;
   }
+
+  return navigateTo('/contacts')
 }
 </script>
 
@@ -18,7 +22,7 @@ async function save(data) {
   <div class="flex flex-col gap-8 w-full sm:px-5 sm:mt-10 lg:px-20">
     <ContactProfileBanner :name="form.name" :title="form.title" :picture="form.picture" is-modifing
       class="hidden sm:flex" />
-    <ContactDataForm :data="form" @save="save" />
+    <ContactDataForm :data="form" :errors="errors" @save="save" />
   </div>
 </template>
 
