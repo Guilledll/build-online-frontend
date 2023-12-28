@@ -5,7 +5,7 @@ import { toTypedSchema } from "@vee-validate/zod";
 
 definePageMeta({ middleware: 'guest' });
 
-const { login: storeLogin, loggedInUser } = useAuthStore();
+const store = useAuthStore();
 const form = ref();
 
 const schema = toTypedSchema(z.object({
@@ -14,14 +14,14 @@ const schema = toTypedSchema(z.object({
 }))
 
 async function login(data) {
-  const { error } = await storeLogin(data);
+  const { error } = await store.login(data);
 
   if (error.value) {
     form.value.setErrors({ email: error.value.data.message });
     return;
   }
 
-  await loggedInUser();
+  await store.loggedInUser();
 
   return navigateTo('/contacts')
 }
@@ -35,13 +35,14 @@ async function login(data) {
 
         <div class="flex flex-col gap-2">
           <label for="email" class="font-redhat font-bold">Email</label>
-          <Field type="email" name="email" id="email" class="rounded-lg px-6 py-4 bg-pink-50" />
+          <Field type="email" name="email" id="email" autocomplete="username" class="rounded-lg px-6 py-4 bg-pink-50" />
           <ErrorMessage name="email" class="text-sm text-red-500 font-semibold" />
         </div>
 
         <div class="flex flex-col gap-2">
           <label for="email" class="font-redhat font-bold">Password</label>
-          <Field type="password" name="password" id="password" class="rounded-lg px-6 py-4 bg-pink-50" />
+          <Field type="password" name="password" id="password" autocomplete="current-password"
+            class="rounded-lg px-6 py-4 bg-pink-50" />
           <ErrorMessage name="password" class="text-sm text-red-500 font-semibold" />
         </div>
       </div>
