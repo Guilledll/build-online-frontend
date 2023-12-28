@@ -38,7 +38,7 @@ const filteredContacts = computed(() => {
     </div>
     <div v-else
       class="grid grid-cols-1 -mx-5 mt-16 gap-0 md:max-w-6xl md:mx-auto sm:gap-y-4 md:grid-cols-2 md:gap-x-12 lg:gap-x-20 xl:grid-cols-3 [&>*:nth-child(even)]:bg-gray-50 [&>*:nth-child(even)]:sm:bg-white">
-      <ContactCard v-for="(contact, i) in filteredContacts" :contact="contact" :key="contact.id" />
+      <ContactCard v-for="contact in filteredContacts" :contact="contact" :key="contact.id" />
     </div>
   </div>
   <LazyActionButton to="/contacts/add" v-if="!filteredContacts.length"

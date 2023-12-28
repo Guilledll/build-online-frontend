@@ -13,11 +13,10 @@ defineProps({
     class="w-full flex flex-col items-center bg-pink-50 h-auto rounded-2xl sm:bg-gray-200 sm:h-72 sm:relative sm:mb-40">
     <div class="flex flex-col items-center gap-4 p-2 sm:absolute sm:-bottom-1/2">
       <div>
-        <!-- <img :src="picture" :alt="`${contact.name} image`"> -->
-        <div class="h-20 w-20 bg-pink-300 rounded-full border border-transparent sm:h-44 sm:w-44 sm:border-black">
-        </div>
+        <img :src="picture" alt="profile image"
+          class="h-20 w-20 bg-pink-300 rounded-full border border-transparent sm:h-44 sm:w-44 sm:border-black" />
       </div>
-      <div class="space-y-1">
+      <div class="space-y-1 text-center">
         <p class="font-redhat font-bold text-2xl text-black">{{ name }}</p>
         <p class="text-build text-base font-normal">{{ title }}</p>
       </div>
