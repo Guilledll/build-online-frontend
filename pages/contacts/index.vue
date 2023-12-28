@@ -4,7 +4,7 @@ definePageMeta({ middleware: 'auth' });
 const contactStore = useContactStore();
 const search = ref('');
 
-useAsyncData(() => contactStore.loadContacts());
+await useAsyncData(() => contactStore.loadContacts());
 
 const filteredContacts = computed(() => {
   if (!search.value) {

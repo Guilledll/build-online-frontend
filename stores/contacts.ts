@@ -1,6 +1,7 @@
 export const useContactStore = defineStore('contacts', {
     state: () => ({
-        contacts: []
+        contacts: [],
+        contact: null
     }),
     actions: {
         async loadContacts() {
@@ -8,10 +9,13 @@ export const useContactStore = defineStore('contacts', {
             const res = await $contacts.loadContacts();
 
             this.contacts = res.data.value.data;
-
-            return res.data.value.data;
         },
-        async getContact() { },
+        async getContact(id: number) {
+            const { $contacts } = useNuxtApp();
+            const res = await $contacts.getContact(id);
+
+            this.contact = res.data.value.data;
+        },
         async updateContact() { },
         async createContact() { }
     }
