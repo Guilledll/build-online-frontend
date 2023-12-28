@@ -12,6 +12,9 @@ export default <Partial<Config>>{
     extend: {
       fontFamily: {
         'redhat': ['RedHat']
+      },
+      colors: {
+        build: '#99879D'
       }
     },
   },
