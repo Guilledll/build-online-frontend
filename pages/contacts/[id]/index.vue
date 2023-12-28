@@ -16,12 +16,12 @@ const dataList = computed(() => {
 
 <template>
     <div class="w-full space-y-8 sm:px-5 sm:mt-10 lg:px-20">
-        <ContactProfileBanner :contact="contact" />
+        <ContactProfileBanner :name="contact.name" :title="contact.title" :picture="contact.picture" />
         <div class="grid grid-cols-1 gap-y-6 gap-x-10 max-w-lg mx-auto sm:grid-cols-2">
             <template v-for="data in dataList" :key="data.field">
                 <div v-if="data.value">
                     <p class="font-redhat font-bold">{{ data.field }}</p>
-                    <p class="text-[#99879D] leading-6 text-base text-wrap">{{ data.value }}</p>
+                    <p class="text-build leading-6 text-base text-wrap">{{ data.value }}</p>
                 </div>
             </template>
         </div>

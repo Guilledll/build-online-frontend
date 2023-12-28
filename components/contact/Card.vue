@@ -22,7 +22,7 @@ const contactLink = computed(() => `/contacts/${props.contact.id}`);
           <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
         </svg>
       </div>
-      <p class="text-[#99879D] text-xs truncate">{{ contact.title }}</p>
+      <p class="text-build text-xs truncate">{{ contact.title }}</p>
     </div>
   </NuxtLink>
 </template>
