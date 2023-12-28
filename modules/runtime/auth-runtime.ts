@@ -1,5 +1,4 @@
 import { defineNuxtPlugin, useCookie, useFetch, addRouteMiddleware, useAuthStore } from "#imports";
-import type { LoginForm } from "~/types/forms";
 
 export default defineNuxtPlugin(async () => {
     let store = useAuthStore();
@@ -36,7 +35,7 @@ export default defineNuxtPlugin(async () => {
     /**
      * Log in user, save token and returs API resonse
      */
-    async function login(body: LoginForm) {
+    async function login(body: object) {
         const res = await apiFetch('/login', { method: "POST", body });
         if (res.data.value?.token) {
             saveToken(res.data.value.token)

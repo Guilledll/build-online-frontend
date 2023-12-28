@@ -1,5 +1,3 @@
-import type { LoginForm } from "~/types/forms";
-
 export const useAuthStore = defineStore('auth', {
     state: () => {
         return {
@@ -8,7 +6,7 @@ export const useAuthStore = defineStore('auth', {
         }
     },
     actions: {
-        async login(payload: LoginForm) {
+        async login(payload: object) {
             const { $auth } = useNuxtApp();
 
             return $auth.login(payload);
