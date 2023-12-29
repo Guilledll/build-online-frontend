@@ -7,8 +7,7 @@
 - Run `pnpm dev` or `yarn dev` or `npm run dev` to launch develop server
 
 ## ⚙️ Internals
-- Google Places API integration
-- `.env` file is not needed if your backend runs on Devcontainer, if not, you may need to configure API url in this env file.
+- Google Places API integration (personal key needed on `.env` file)
 - Form Validation is done using `Vee-Validate` and `zod`
   - Backend errors are dynamically added to all form fields
 - `Pinia` is used for state management
