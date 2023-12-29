@@ -6,11 +6,12 @@ import { toTypedSchema } from "@vee-validate/zod";
 const props = defineProps({ data: { type: Object, required: true }, errors: { type: Object, default: () => ({}) } });
 const emit = defineEmits(['save']);
 
+const form = ref();
 watch(() => props.errors, (val) => {
   form.value.setErrors(val);
 }, { deep: true });
 
-const form = ref(props.data);
+const formData = ref(props.data);
 const phoneRegex = new RegExp(/^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/);
 const route = useRoute();
 const cancelLink = computed(() => route.params.id ? `/contacts/${route.params.id}` : '/contacts');
@@ -22,14 +23,27 @@ const schema = toTypedSchema(z.object({
   address: z.string().min(5, 'Address is too short'),
   phone: z.string().regex(phoneRegex, "Invalid Phone number"),
   email: z.string().email('Must be a valid email'),
-}))
+}));
 
+onMounted(() => {
+  // Initialize places API
+  const input = document.getElementById('address');
+  const options = { types: ['address'], fields: ['formatted_address'] };
+  const auto = new google.maps.places.Autocomplete(input, options);
+
+  auto.addListener('place_changed', () => {
+    formData.value.address = auto.getPlace().formatted_address;
+    // Assign value to input manually to avoid reactibily loss
+    form.value.setFieldValue('address', formData.value.address);
+  })
+});
 </script>
 
 <template>
-  <Form @submit="(e) => $emit('save', e)" class="mb-5" ref="form" :initial-values="form" :validation-schema="schema">
-    <div class="grid grid-cols-1 grid-flow-row gap-x-20 sm:grid-cols-2">
-      <div class="grid grid-cols-1 gap-y-3">
+  <Form @submit="(e) => $emit('save', e)" class="mb-5 sm:mx-auto" ref="form" :initial-values="formData"
+    :validation-schema="schema">
+    <div class="w-full grid grid-cols-1 grid-flow-row gap-x-20 sm:grid-cols-2">
+      <div class="grid grid-cols-1 gap-y-3 sm:min-w-[18rem]">
         <div class="flex flex-col gap-2">
           <label for="name" class="font-redhat font-bold text-xl">Name</label>
           <Field type="text" name="name" id="name"
@@ -51,7 +65,7 @@ const schema = toTypedSchema(z.object({
           <ErrorMessage name="picture" class="text-sm text-red-500 font-semibold" />
         </div>
       </div>
-      <div class="grid grid-cols-1 gap-y-3">
+      <div class="grid grid-cols-1 gap-y-3  sm:min-w-[18rem]">
         <div class="flex flex-col gap-2">
           <label for="address" class="font-redhat font-bold text-xl">Address</label>
           <Field type="text" name="address" id="address"
@@ -85,4 +99,16 @@ const schema = toTypedSchema(z.object({
   </Form>
 </template>
 
-<style scoped></style>
+<style>
+.pac-container {
+  @apply bg-pink-50;
+
+  .pac-item {
+    @apply bg-pink-50 p-4 text-build hover:bg-pink-100
+  }
+
+  .pac-icon {
+    @apply hidden;
+  }
+}
+</style>

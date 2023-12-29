@@ -6,7 +6,6 @@ const form = ref({});
 const errors = ref({});
 
 async function save(data) {
-  console.log(data);
   const res = await store.createContact(data);
 
   if (res.error.value) {

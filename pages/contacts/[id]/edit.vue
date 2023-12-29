@@ -23,6 +23,9 @@ async function save(data) {
     return;
   }
 
+  // Refresh updated contact
+  await store.getContact(params.id);
+
   return navigateTo('/contacts')
 }
 </script>
